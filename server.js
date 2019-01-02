@@ -8,18 +8,20 @@ const app = express();
 app.use(cros());
 app.use(bodyParser.json());
 
-// const database = knex({
-//     client: 'pg',
-//     connection: {
-//         host: '127.0.0.1',
-//         user: 'Tian',
-//         password: '',
-//         database: 'smart-brain '
-//     }
-// });
-// database.select('*').from('users').then(data =>   {
-//     console.log(data);
-// });
+const db = knex({
+    client: 'pg',
+    connection: {
+        host: '127.0.0.1',
+        user: 'Tian',
+        password: '',
+        database: 'smart-brain'
+    }
+});
+
+db.select('*').from('users').then(data => {
+    //console.log(data);
+});
+
 const database = {
     users: [
         {
@@ -55,16 +57,17 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
     // Load hash from your password DB.
-// bcrypt.compare("1234567", '$2a$10$ntX.mdEc7PeJ7obiJgNHCOL5908cyY6.bBrczN19ZKEFWMY/mm7fi', (err, res)=> {
-//     console.log('first guess',res);
-// });
-// bcrypt.compare("veggies", '$2a$10$ntX.mdEc7PeJ7obiJgNHCOL5908cyY6.bBrczN19ZKEFWMY/mm7fi', (err, res)=> {
-//     console.log('2 guess',res);
-//     // res = false
-// });
+    // bcrypt.compare("1234567", '$2a$10$ntX.mdEc7PeJ7obiJgNHCOL5908cyY6.bBrczN19ZKEFWMY/mm7fi', (err, res)=> {
+    //     console.log('first guess',res);
+    // });
+    // bcrypt.compare("veggies", '$2a$10$ntX.mdEc7PeJ7obiJgNHCOL5908cyY6.bBrczN19ZKEFWMY/mm7fi', (err, res)=> {
+    //     console.log('2 guess',res);
+    //     // res = false
+    // });
     if (req.body.email === database.users[0].email &&
         req.body.password === database.users[0].password) {
-        res.json('sucess');
+        res.json(database.users[0]);
+        //res.json('sucess');
     } else {
         res.status(400).json('error logging in')
     }
@@ -75,15 +78,14 @@ app.post('/register', (req, res) => {
     // bcrypt.hash(password, null, null, (err, hash) => {
     //     console.log(hash);
     // });
-    database.users.push({
-        id: '123',
-        name: name,
+    db('users').returning('*').insert({
         email: email,
-        password: password,
-        entries: 0,
+        name: name,
         joined: new Date()
-    })
-    res.json(database.users[database.users.length - 1]);
+    }).then(user => {
+        res.json(user[0]);
+    }).catch(err => res.status(400).json('unable to register'))
+
 })
 
 app.get('/profile/:id', (req, res) => {
@@ -102,7 +104,7 @@ app.get('/profile/:id', (req, res) => {
     }
 })
 
-app.post('/image', (req, res) => {
+app.put('/image', (req, res) => {
     const { id } = req.body;
     let found = false;
     database.users.forEach(user => {
