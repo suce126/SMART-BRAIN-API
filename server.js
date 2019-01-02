@@ -80,7 +80,7 @@ app.post('/register', (req, res) => {
     // });
     db('users').returning('*').insert({
         email: email,
-        name: name,
+        name: name, 
         joined: new Date()
     }).then(user => {
         res.json(user[0]);
