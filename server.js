@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const db = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
+        host: 'postgresql-animate-42147',
         user: 'Tian',
         password: '',
         database: 'smart-brain'
