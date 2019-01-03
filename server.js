@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const db = knex({
     client: 'pg',
     connection: {
-        host: process.env.DAATABASE_URL,
+        connectionString: process.env.DAATABASE_URL,
         ssl:true,
     }
 });
