@@ -20,33 +20,33 @@ const db = knex({
     }
 });
 
-const database = {
-    users: [
-        {
-            id: '123',
-            name: 'Su',
-            email: 'suce126@126.com',
-            password: '1234567',
-            entries: 0,
-            joined: new Date()
-        },
-        {
-            id: '124',
-            name: 'Ce',
-            email: 'ce126@126.com',
-            password: '1234567',
-            entries: 0,
-            joined: new Date()
-        }
-    ],
-    login: [
-        {
-            id: '987',
-            hash: '',
-            email: 'suce126@126.com'
-        }
-    ]
-}
+// const database = {
+//     users: [
+//         {
+//             id: '123',
+//             name: 'Su',
+//             email: 'suce126@126.com',
+//             password: '1234567',
+//             entries: 0,
+//             joined: new Date()
+//         },
+//         {
+//             id: '124',
+//             name: 'Ce',
+//             email: 'ce126@126.com',
+//             password: '1234567',
+//             entries: 0,
+//             joined: new Date()
+//         }
+//     ],
+//     login: [
+//         {
+//             id: '987',
+//             hash: '',
+//             email: 'suce126@126.com'
+//         }
+//     ]
+// }
 
 app.get('/', (req, res) => { res.send('it is working!') })
 
